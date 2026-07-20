@@ -1,4 +1,6 @@
 :root {
+  /* Light theme (default). Crimson is IU Crimson (#990000, PMS 201) and ink is IU
+     Primary Black (#191919) — both official brand values. */
   --crimson: #990000;
   --crimson-dark: #6b0000;
   --ink: #191919;
@@ -6,8 +8,49 @@
   --rule: #e2e0dd;
   --paper: #ffffff;
   --wash: #f7f5f3;
+
+  /* Theme-driven bits folded into vars so the dark palette lives in ONE place:
+     which logo variant shows, and the faculty-initials placeholder colour. */
+  --show-light: block;
+  --show-dark: none;
+  --initials: #b9b4ae;
+
   --measure: 68ch;
   --page: 1080px;
+}
+
+/* Dark palette. Declared once, applied in two situations by the selector lists below:
+   an explicit dark choice (:root[data-theme="dark"]), or no explicit choice on a dark
+   OS. The :not([data-theme="light"]) guard lets a manual "light" choice override the
+   OS. On a near-black paper, IU Crimson #990000 only reaches 2.1:1 contrast (fails
+   WCAG), so links/accents use a lightened crimson tint that passes AA text at 5.1:1
+   while staying in the crimson family. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --crimson: #e05a5f;
+    --crimson-dark: #ec7a7a;
+    --ink: #ececec;
+    --muted: #a2a2a2;
+    --rule: #333;
+    --paper: #131313;
+    --wash: #1c1c1c;
+    --show-light: none;
+    --show-dark: block;
+    --initials: #4d4d4d;
+  }
+}
+
+:root[data-theme='dark'] {
+  --crimson: #e05a5f;
+  --crimson-dark: #ec7a7a;
+  --ink: #ececec;
+  --muted: #a2a2a2;
+  --rule: #333;
+  --paper: #131313;
+  --wash: #1c1c1c;
+  --show-light: none;
+  --show-dark: block;
+  --initials: #4d4d4d;
 }
 
 *,
@@ -79,15 +122,17 @@ img {
 .site-header .wrap {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem 2rem;
-  align-items: baseline;
-  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  align-items: center;
   padding-block: 1.15rem;
 }
 
+/* Brand pinned left; margin-auto pushes the toggle(s) and nav to the right. The nav
+   itself has flex-basis:100% on mobile, so it wraps below this row when open. */
 .brand {
   display: block;
   line-height: 0;
+  margin-right: auto;
 }
 
 .brand img {
@@ -95,21 +140,15 @@ img {
   height: auto;
 }
 
-/* Two artwork variants rather than one recoloured file. The supplied lockups are
-   monochrome — black on light, white on dark — so a filter could invert them, but
-   shipping the designer's own exports avoids guessing at their intent. */
-.brand-dark {
-  display: none;
+/* Two artwork variants rather than one recoloured file: the ink-on-white lockup and
+   its reversed twin. Which one shows is driven by theme vars set above, so a single
+   pair of rules covers system-dark and the manual toggle alike. */
+.brand-light {
+  display: var(--show-light);
 }
 
-@media (prefers-color-scheme: dark) {
-  .brand-light {
-    display: none;
-  }
-
-  .brand-dark {
-    display: block;
-  }
+.brand-dark {
+  display: var(--show-dark);
 }
 
 @media (max-width: 24rem) {
@@ -127,6 +166,45 @@ nav ul {
   list-style: none;
   font-family: ui-sans-serif, system-ui, sans-serif;
   font-size: 0.9375rem;
+}
+
+/* ---- theme toggle ---- */
+.theme-toggle {
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.theme-toggle:hover {
+  color: var(--crimson);
+  background: var(--wash);
+}
+
+/* Show the glyph for the theme you'd switch TO: a moon in light mode, a sun in dark.
+   Driven by --show-dark, which is `block` exactly when the dark theme is active. */
+.theme-toggle .icon-moon {
+  display: var(--show-light);
+}
+
+.theme-toggle .icon-sun {
+  display: var(--show-dark);
+}
+
+/* Before the theme script runs (or with JS off) the button can't do anything, so keep
+   it out of the layout and tab order until JS opts it in. */
+.theme-toggle {
+  display: none;
+}
+
+.js .theme-toggle {
+  display: inline-flex;
 }
 
 /* ---- hamburger ---- */
@@ -358,7 +436,7 @@ main {
   font-family: ui-sans-serif, system-ui, sans-serif;
   font-size: 2.25rem;
   font-weight: 600;
-  color: #b9b4ae;
+  color: var(--initials);
   border: 1px dashed var(--rule);
 }
 
@@ -550,23 +628,3 @@ main {
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --ink: #ececec;
-    --muted: #a2a2a2;
-    --rule: #333;
-    --paper: #131313;
-    --wash: #1c1c1c;
-    --crimson: #ff6b6b;
-    --crimson-dark: #ff9a9a;
-  }
-
-  .brand,
-  nav a {
-    color: var(--ink);
-  }
-
-  .faculty-card .initials {
-    color: #4d4d4d;
-  }
-}

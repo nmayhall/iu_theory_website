@@ -34,48 +34,70 @@ or a stretched link (faculty cards) are scored correctly rather than by element 
 
 Delete `scripts/` and the `puppeteer-core` devDependency if you don't want to keep them.
 
+## Theme (light / dark)
+
+The header has a light/dark toggle. Behaviour:
+
+- **No choice made** → follows the OS (`prefers-color-scheme`), and tracks it live.
+- **Toggle clicked** → an explicit choice, saved to `localStorage`, overriding the OS.
+
+An inline script in `BaseLayout.astro` stamps `data-theme` on `<html>` **before first
+paint**, so there is no flash of the wrong theme on reload.
+
+All theme differences live in CSS custom properties in `global.css`, defined once in a
+`:root` (light) block and once in a shared dark block. The dark block is applied via two
+selectors — `@media (prefers-color-scheme: dark) :root:not([data-theme="light"])` and
+`:root[data-theme="dark"]` — so system-default and manual override share the same values.
+Even which logo variant shows (`--show-light`/`--show-dark`) and the faculty-initials
+colour are vars, so adding a themed value means editing one place.
+
+If JS is off, the toggle button hides itself and the site follows the OS via the media
+query — still fully usable, just without manual override.
+
+## Colors (IU brand)
+
+Verified against IU's brand guidance:
+
+- **`--crimson: #990000`** — IU Crimson (PMS 201). Official, used as-is in light mode.
+- **`--ink: #191919`** — IU Primary Black. Official.
+- **Paper `#ffffff`** — IU treats Cream as functionally white, so pure white is on-brand.
+
+**Dark mode uses a lightened crimson `#e05a5f`, not `#990000`.** This is deliberate and
+necessary: pure IU Crimson on the near-black dark paper measures only 2.1:1 contrast, which
+fails WCAG. `#e05a5f` reaches 5.1:1 (AA for text) while staying in the crimson family. IU
+publishes no official dark-mode crimson, and their guidance explicitly requires checking
+contrast, so this is the accessible reading of the brand rather than a departure from it.
+
 ## Branding
 
-The header/hero lockups are **PNG** in `src/assets/brand/`, rendered through Astro's
-`<Image>` so it emits sized, optimised WebP rather than shipping the 2409px source. Light
-and dark variants are swapped by `prefers-color-scheme` (`.brand-light` / `.brand-dark` in
-`global.css`).
+Header/hero lockups are self-contained **SVG** in `src/assets/brand/` — one file scales to
+every size. `lockup-light.svg` (ink brand, crimson accents) and `lockup-dark.svg` (cream
+brand) are the designer's own light and dark exports; which shows is driven by the
+`--show-light`/`--show-dark` theme vars.
 
-`lockup-dark.png` is the supplied reversed export with its flat `#191919` background keyed
-out (soft alpha threshold on the edges), because it would otherwise show as a lighter
-rectangle against our `#131313` dark paper. If a genuinely transparent reversed export
-becomes available, use it directly.
+The lockup appears twice: small in the header on every page, and large as the `<h1>` on the
+home page, where it sits *inside* the `h1` and carries the alt text so the document keeps a
+real heading for screen readers and search.
 
-Pass **width only** to `<Image>`. Passing width *and* height resizes to that exact box and
-distorts any source not already at that aspect ratio.
+**Regenerate from a new designer export with `scripts/prepare-logo.py`** — do not use a raw
+export directly. The exports keep the wordmark as live `<text>` in **Space Grotesk** +
+**Spline Sans Mono**, neither a default system font, so without embedding the wordmark
+falls back to a system font on most visitors' machines. The script subsets and embeds both
+fonts (both OFL, so permitted), optionally strips a baked background rect, and validates the
+output as XML:
 
-### If you switch back to SVG
-
-SVG is ~7× smaller here (6.3 KB serving every size, vs ~42 KB of WebP derivatives for the
-home page) and stays sharp at any future size. Two gotchas, both already solved once:
-
-- The designer's SVG exports keep the wordmark as live `<text>` in **Open Sans Bold**, which
-  is not a default system font. Without it the wordmark silently falls back to a serif —
-  invisible to anyone testing on a Mac that has Open Sans installed.
-  `scripts/embed-logo-font.py` subsets and embeds the font as base64 `@font-face`, making
-  the file self-contained (Open Sans is Apache-2.0, so this is permitted):
-  ```sh
-  python3 scripts/embed-logo-font.py <export.svg> src/assets/brand/lockup-light.svg
-  ```
-- Hand-editing SVG XML (e.g. stripping a background rect) can produce a file that builds
-  and serves 200 but fails at decode. Always validate; `npm run check:responsive` catches
-  it via `naturalWidth`.
-
-Simplest alternative: ask the designer to export SVG with **text converted to outlines**,
-which removes the font question entirely.
-
-The lockup appears twice: small in the header on every page, and large as the `<h1>` on
-the home page. On the home page it sits *inside* the `h1` and carries the alt text, so the
-document keeps a real heading for screen readers and search engines.
+```sh
+python3 scripts/prepare-logo.py <export.svg> src/assets/brand/lockup-light.svg [--strip-fill '#191919']
+```
 
 Favicons in `public/` are rasterised from `icon-dark.svg` composited on IU crimson, so the
-mark stays legible against both light and dark browser chrome. Regenerate them if the
-artwork changes.
+mark stays legible against both light and dark browser chrome. Regenerate if the artwork
+changes.
+
+**Known cosmetic inconsistency:** the two designer files place the crimson accent
+differently — light mode crimsons the "INDIANA UNIVERSITY" subtitle, dark mode crimsons the
+bracket marks. Each reads well on its own; harmonising them (if wanted) is a change to the
+source SVGs, not the site.
 
 **Validate any hand-edited SVG.** A malformed SVG still builds and still serves HTTP 200,
 failing only at decode time as a broken image — `npm run check:responsive` catches exactly
