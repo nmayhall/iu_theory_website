@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FacultyCard from '../../components/FacultyCard.astro';
+
+const faculty = (await getCollection('faculty')).sort(
+  (a, b) => a.data.order - b.data.order || a.data.name.localeCompare(b.data.name),
+);
+---
+
+<BaseLayout title="People — IU Theoretical Chemistry">
+  <p class="eyebrow">People</p>
+  <h1>Faculty</h1>
+  <p class="lede">
+    Our faculty span electronic structure, dynamics, statistical mechanics, and quantum
+    information, and collaborate closely across group boundaries.
+  </p>
+
+  <div class="section">
+    {
+      faculty.length === 0 ? (
+        <p class="lede">No faculty entries yet.</p>
+      ) : (
+        <ul class="faculty-grid">
+          {faculty.map((entry) => (
+            <FacultyCard entry={entry} />
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</BaseLayout>

@@ -1,0 +1,27 @@
+{
+  "name": "iu-theory-website",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "check:responsive": "node scripts/check-responsive.mjs",
+    "check:nav": "node scripts/check-nav.mjs"
+  },
+  "dependencies": {
+    "@astrojs/markdown-remark": "^7.2.1",
+    "@retorquere/bibtex-parser": "^10.0.0",
+    "astro": "^7.1.1",
+    "katex": "^0.18.1",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "puppeteer-core": "^25.3.0",
+    "typescript": "^6.0.3"
+  }
+}

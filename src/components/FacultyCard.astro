@@ -1,0 +1,66 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { url } from '../lib/url';
+
+interface Props {
+  entry: CollectionEntry<'faculty'>;
+}
+
+const { entry } = Astro.props;
+const { name, title, photo, researchAreas, blurb } = entry.data;
+
+const href = url(`/people/${entry.id}`);
+
+// The <Image> below passes `width` only, deliberately. Passing both width and height
+// makes Astro resize to that exact box, distorting any source that isn't already 4:5 —
+// a landscape photo gets visibly squashed. With width alone Astro preserves the source
+// aspect ratio, and `aspect-ratio: 4/5` + `object-fit: cover` in global.css crop it to
+// the grid shape instead.
+const initials = name
+  .split(/\s+/)
+  .map((part) => part[0])
+  .slice(0, 2)
+  .join('');
+---
+
+<li class="faculty-card">
+  {
+    photo ? (
+      <Image src={photo} alt="" width={640} />
+    ) : (
+      <div class="initials" aria-hidden="true">
+        {initials}
+      </div>
+    )
+  }
+
+  {/* Text lives in a single wrapper so the card is always exactly two children. The
+      narrow-screen layout is then a plain 2-column grid (thumbnail | body) without
+      needing row spans, which do not work reliably against an implicit grid. */}
+  <div class="card-body">
+    {/* The name link is "stretched" over the whole card via ::after in global.css, so
+        the entire card is one large tap target and there is only one link per card. */}
+    <h3><a href={href}>{name}</a></h3>
+    <p class="role">{title}</p>
+
+    {blurb && <p class="blurb">{blurb}</p>}
+
+    {
+      researchAreas.length > 0 && (
+        <ul class="tags">
+          {researchAreas.map((area) => (
+            <li>{area}</li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</li>
+
+<style>
+  .blurb {
+    font-size: 0.9375rem;
+    margin: 0 0 0.75rem;
+  }
+</style>

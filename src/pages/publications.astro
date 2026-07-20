@@ -1,0 +1,128 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PublicationList from '../components/PublicationList.astro';
+import { isAuthoredBy, surnamesFor } from '../lib/publications';
+
+const publications = await getCollection('publications');
+const faculty = (await getCollection('faculty')).sort((a, b) => a.data.order - b.data.order);
+
+// Count per person so the page can show coverage, and so an unmatched faculty member
+// (a surname that never appears in the .bib) is visible rather than silently absent.
+const counts = faculty.map((person) => ({
+  person,
+  count: publications.filter((pub) => isAuthoredBy(pub, person)).length,
+}));
+
+const allSurnames = faculty.flatMap(surnamesFor);
+const years = publications.map((p) => p.data.year).filter((y): y is number => typeof y === 'number');
+const span = years.length ? `${Math.min(...years)}–${Math.max(...years)}` : null;
+---
+
+<BaseLayout
+  title="Publications — IU Theoretical Chemistry"
+  description="Selected publications from the theoretical chemistry program at Indiana University."
+>
+  <p class="eyebrow">Publications</p>
+  <h1>Publications</h1>
+  <p class="lede">
+    {publications.length} {publications.length === 1 ? 'entry' : 'entries'}
+    {span && <> spanning {span}</>}. Titles link to the published version via DOI.
+  </p>
+
+  {
+    counts.length > 0 && (
+      <ul class="by-person">
+        {counts.map(({ person, count }) => (
+          <li>
+            <a href={`#${person.id}`}>
+              {person.data.name} <span class="n">{count}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
+  <div class="section">
+    <PublicationList publications={publications} highlight={allSurnames} />
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>By faculty member</h2>
+    </div>
+    {
+      counts.map(({ person, count }) => (
+        <section id={person.id} class="person-block">
+          <h3>
+            {person.data.name} <span class="n">{count}</span>
+          </h3>
+          {count === 0 ? (
+            <p class="pub-empty">
+              No entries in the bibliography match this author yet.
+            </p>
+          ) : (
+            <PublicationList
+              publications={publications.filter((pub) => isAuthoredBy(pub, person))}
+              highlight={surnamesFor(person)}
+            />
+          )}
+        </section>
+      ))
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .by-person {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.875rem;
+  }
+
+  .by-person a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 44px;
+    padding-inline: 0.75rem;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .by-person a:hover {
+    border-color: var(--crimson);
+    color: var(--crimson);
+  }
+
+  .n {
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.8125rem;
+  }
+
+  .person-block {
+    margin-bottom: 2.5rem;
+    scroll-margin-top: 1rem;
+  }
+
+  .person-block h3 {
+    font-size: 1.125rem;
+    margin: 0 0 0.75rem;
+  }
+
+  .pub-empty {
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin: 0;
+  }
+</style>

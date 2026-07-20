@@ -1,0 +1,263 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const timeline = [
+  { year: '1955', text: 'Harrison Shull joins the IU chemistry faculty, having worked with Per-Olov Löwdin at Uppsala on natural orbital theory.' },
+  { year: '1959', text: 'IU establishes its Research Computing Center, with Shull as its first director.' },
+  { year: '1961', text: 'Ernest R. Davidson earns his PhD in theoretical chemistry at IU Bloomington.' },
+  { year: '1963', text: 'The Quantum Chemistry Program Exchange begins operation at Bloomington — the first organized way for chemists anywhere to share code.' },
+  { year: '1970s', text: 'Attila Szabo, on the IU faculty, writes Modern Quantum Chemistry with Neil Ostlund.' },
+  { year: '1981', text: 'The QCPE Newsletter becomes the QCPE Bulletin, giving programs citable numbers.' },
+  { year: '1984', text: 'Davidson returns to IU as a member of the faculty.' },
+  { year: '2001', text: 'Davidson receives the National Medal of Science while at IU.' },
+  { year: '2003', text: 'The Harrison Shull Lectureship in Chemistry is established.' },
+  { year: '2007', text: 'QCPE closes after 44 years, its function long since absorbed by the internet it predated.' },
+];
+
+const sources = [
+  { label: 'Quantum Chemistry Program Exchange — Wikipedia', href: 'https://en.wikipedia.org/wiki/Quantum_Chemistry_Program_Exchange' },
+  { label: 'Harrison Shull — Wikipedia', href: 'https://en.wikipedia.org/wiki/Harrison_Shull' },
+  { label: 'The Harrison Shull Lectureship in Chemistry — IU Department of Chemistry', href: 'https://www.chem.indiana.edu/news-events/distinguished-lecture-series/the-harrison-shull-lectureship-in-chemistry/' },
+  { label: 'Ernest R. Davidson — National Medal of Science, U.S. National Science Foundation', href: 'https://www.nsf.gov/honorary-awards/national-medal-science/recipients/ernest-r-davidson' },
+  { label: 'IU chemist Davidson to receive National Medal of Science — IU News Room', href: 'https://newsinfo.iu.edu/news/page/normal/389.html' },
+  { label: 'Ernest Davidson — IU Department of Chemistry', href: 'https://www.chem.indiana.edu/faculty/ernest-davidson/' },
+  { label: 'Peter J. Ortoleva — IU University Honors and Awards', href: 'https://honorsandawards.iu.edu/awards/honoree/1123.html' },
+  { label: 'Attila Szabo (scientist) — Wikipedia', href: 'https://en.wikipedia.org/wiki/Attila_Szabo_(scientist)' },
+  { label: 'Quantum Chemistry Program Exchange, Facilitator of Theoretical and Computational Chemistry in Pre-Internet History (ACS Symposium Series, 2013)', href: 'https://pubs.acs.org/doi/abs/10.1021/bk-2013-1122.ch008' },
+];
+---
+
+<BaseLayout
+  title="History — IU Theoretical Chemistry"
+  description="Indiana University's role in the history of computational chemistry, from the Quantum Chemistry Program Exchange to the faculty who built the field."
+>
+  <p class="eyebrow">History</p>
+  <h1>A Long History in Computing Chemistry</h1>
+  <p class="lede">
+    Theoretical chemistry at Indiana University is older than most of the software the
+    field now runs on. For 44 years, if you wanted a quantum chemistry program, you wrote
+    to Bloomington.
+  </p>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>The Quantum Chemistry Program Exchange</h2>
+    </div>
+    <div class="prose">
+      <p>
+        Before the internet, scientific software moved by mail. In 1963, Harrison Shull
+        founded the <strong>Quantum Chemistry Program Exchange</strong> (QCPE) at IU
+        Bloomington as an inexpensive way for chemists to exchange programs rather than
+        each rewrite the same integrals code. It was, in effect, the field's package
+        repository — three decades before that phrase existed.
+      </p>
+      <p>
+        The catalog reached nearly 100 programs within three years and passed 400 by the
+        mid-1980s, when membership exceeded 2,000. Distribution followed the media of each
+        era in turn: punched cards, then magnetic tape, floppy disks, CD-ROMs, and finally
+        FTP. From 1981 the <em>QCPE Bulletin</em> gave each program a citable number, and
+        citations to those numbers peaked above 1,000 per year in the early 1990s.
+      </p>
+      <p>
+        Much of the field passed through the catalog. Gaussian was distributed as QCPE
+        entries #236, #368, and #406 before becoming commercial; MOPAC later became the
+        most requested program. POLYATOM, CNDO/2, AMPAC, CRYSTAL, Molden, and the MM2 and
+        MM3 force fields all moved through Bloomington. Originally funded by the Air Force
+        Office of Scientific Research and later the NSF, QCPE became self-sustaining in
+        1973 and operated until 2007.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>The people who built it</h2>
+    </div>
+
+    <article class="thrust">
+      <h3>Harrison Shull</h3>
+      <p class="who">IU faculty 1955–1979 · Professor and chair of chemistry</p>
+      <p>
+        Shull came to IU in 1955, having worked with Per-Olov Löwdin at Uppsala on natural
+        orbital theory — a foundational contribution to how electron correlation is treated
+        in electronic structure calculations. He recognized early what digital computing
+        would mean for chemistry, becoming the first director of IU's Research Computing
+        Center in 1959 and founding QCPE in 1963. He was elected to the National Academy of
+        Sciences in 1969 and wrote over 140 papers. He later served as provost of Rensselaer,
+        chancellor of CU Boulder, and provost of the Naval Postgraduate School. The Harrison
+        Shull Lectureship, established in 2003, still brings an outstanding computational
+        chemist to Bloomington each year.
+      </p>
+    </article>
+
+    <article class="thrust">
+      <h3>Richard W. Counts</h3>
+      <p class="who">Manager, Quantum Chemistry Program Exchange</p>
+      <p>
+        Shull founded QCPE; Richard Counts ran it. He managed the exchange for most of its
+        existence — the decades in which the catalog grew from a handful of programs past
+        400, membership climbed beyond 2,000, and the <em>QCPE Bulletin</em> turned shared
+        code into something citable. It was infrastructure work rather than headline
+        science, and the field depended on it completely: for a generation of chemists,
+        obtaining a program meant writing to Bloomington, and the person on the other end
+        of that correspondence was Counts.
+      </p>
+    </article>
+
+    <article class="thrust">
+      <h3>Ernest R. Davidson</h3>
+      <p class="who">PhD, IU 1961 · IU faculty 1984–2002 · Distinguished Professor Emeritus</p>
+      <p>
+        Davidson earned his PhD in theoretical chemistry at IU in 1961 and returned to the
+        faculty in 1984, holding the Robert and Marjorie Mann Chair. Two methods carry his
+        name and remain in daily use: the <strong>Davidson correction</strong>, which
+        estimates the effect of higher excitations on a truncated CI energy, and
+        <strong>Davidson diagonalization</strong>, the iterative algorithm that makes large
+        CI eigenvalue problems tractable at all. Essentially every modern electronic
+        structure package contains a descendant of the latter.
+      </p>
+      <p>
+        He authored more than 400 publications and <em>Reduced Density Matrices in Quantum
+        Chemistry</em> (1976), and was elected to the National Academy of Sciences in 1987.
+        In 2001, while on the IU faculty, he received the
+        <strong>National Medal of Science</strong> — cited for the developments "that led to
+        the field of computational quantum chemistry and made possible the accurate modeling
+        of chemical reactions and the response of molecules to radiation."
+      </p>
+    </article>
+
+    <article class="thrust">
+      <h3>Peter J. Ortoleva</h3>
+      <p class="who">Distinguished Professor Emeritus of Chemistry · Adjunct Professor of Physics</p>
+      <p>
+        Ortoleva's work on reaction, transport, and mechanical systems crossed freely
+        between chemistry, physics, geology, and informatics. His research on geochemical
+        self-organization reshaped thinking in geological circles by showing that many
+        repetitive patterns in the Earth's crust could arise spontaneously, without an
+        externally imposed template — with applications from petroleum exploration to
+        earthquake hazard reduction. A second effort built physical-chemical models and
+        simulators of the living cell, aimed at drug targeting and bioremediation.
+      </p>
+    </article>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>The book on every theorist's shelf</h2>
+    </div>
+    <div class="prose">
+      <p>
+        <strong>Attila Szabo</strong> was a member of the IU chemistry faculty in the 1970s.
+        While at Indiana he wrote, with fellow Karplus-group alumnus <strong>Neil S.
+        Ostlund</strong>, the book that generations of students have simply called
+        "Szabo and Ostlund": <em>Modern Quantum Chemistry: Introduction to Advanced
+        Electronic Structure Theory</em>.
+      </p>
+      <p>
+        Published by Macmillan in 1982, revised by McGraw-Hill in 1989, and kept in print
+        by Dover since 1996, it remains the standard introduction to electronic structure
+        theory more than forty years on — still the first book handed to most incoming
+        theory graduate students. Szabo went on to the National Institutes of Health, where
+        he leads the Theoretical Biophysical Chemistry Section.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Timeline</h2>
+    </div>
+    <ol class="timeline">
+      {
+        timeline.map((item) => (
+          <li>
+            <span class="year">{item.year}</span>
+            <span class="event">{item.text}</span>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Sources</h2>
+    </div>
+    <ul class="sources">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.href}>{s.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-left: 2px solid var(--rule);
+  }
+
+  .timeline li {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    gap: 0 1.25rem;
+    padding: 0.7rem 0 0.7rem 1.5rem;
+    position: relative;
+  }
+
+  .timeline li::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 1.25rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--crimson);
+  }
+
+  .timeline .year {
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--crimson);
+    letter-spacing: 0.02em;
+  }
+
+  .timeline .event {
+    max-width: var(--measure);
+  }
+
+  @media (max-width: 34rem) {
+    .timeline li {
+      grid-template-columns: 1fr;
+      gap: 0.15rem;
+    }
+  }
+
+  .sources {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.875rem;
+  }
+
+  .sources li {
+    border-bottom: 1px solid var(--rule);
+    max-width: var(--measure);
+  }
+
+  .sources a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding-block: 0.5rem;
+  }
+</style>

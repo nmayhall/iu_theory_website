@@ -1,0 +1,572 @@
+:root {
+  --crimson: #990000;
+  --crimson-dark: #6b0000;
+  --ink: #191919;
+  --muted: #5b5b5b;
+  --rule: #e2e0dd;
+  --paper: #ffffff;
+  --wash: #f7f5f3;
+  --measure: 68ch;
+  --page: 1080px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: ui-serif, Georgia, "Times New Roman", serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+.sans {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  margin: 0 0 0.5rem;
+}
+
+h2 {
+  font-size: clamp(1.35rem, 3vw, 1.65rem);
+  margin: 0 0 0.75rem;
+}
+
+a {
+  color: var(--crimson);
+  text-underline-offset: 0.15em;
+}
+
+a:hover {
+  color: var(--crimson-dark);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.wrap {
+  max-width: var(--page);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+.prose {
+  max-width: var(--measure);
+}
+
+/* ---- header ---- */
+.site-header {
+  border-top: 4px solid var(--crimson);
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper);
+}
+
+.site-header .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 2rem;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-block: 1.15rem;
+}
+
+.brand {
+  display: block;
+  line-height: 0;
+}
+
+.brand img {
+  width: 236px;
+  height: auto;
+}
+
+/* Two artwork variants rather than one recoloured file. The supplied lockups are
+   monochrome — black on light, white on dark — so a filter could invert them, but
+   shipping the designer's own exports avoids guessing at their intent. */
+.brand-dark {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  .brand-light {
+    display: none;
+  }
+
+  .brand-dark {
+    display: block;
+  }
+}
+
+@media (max-width: 24rem) {
+  .brand img {
+    width: 200px;
+  }
+}
+
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.9375rem;
+}
+
+/* ---- hamburger ---- */
+.nav-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  margin-right: -0.5rem;
+}
+
+/* Three bars drawn from one element: the middle is the element itself, the outer
+   two are pseudo-elements offset above and below. On open they rotate into an X. */
+.nav-toggle .bars,
+.nav-toggle .bars::before,
+.nav-toggle .bars::after {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 1px;
+  transition:
+    transform 0.18s ease,
+    opacity 0.12s ease;
+}
+
+.nav-toggle .bars::before,
+.nav-toggle .bars::after {
+  content: '';
+  position: relative;
+}
+
+.nav-toggle .bars::before {
+  top: -7px;
+}
+
+.nav-toggle .bars::after {
+  top: 5px;
+}
+
+.nav-toggle[aria-expanded='true'] .bars {
+  background: transparent;
+}
+
+.nav-toggle[aria-expanded='true'] .bars::before {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded='true'] .bars::after {
+  transform: translateY(-5px) rotate(-45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-toggle .bars,
+  .nav-toggle .bars::before,
+  .nav-toggle .bars::after {
+    transition: none;
+  }
+}
+
+nav a {
+  color: var(--ink);
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+  position: relative;
+}
+
+/* Expand the touch target to ~44px without changing the visual underline position.
+   The row gap (1.5rem) is larger than the 2 x 0.7rem expansion, so the hit areas of
+   wrapped nav rows never overlap. */
+nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -0.7rem;
+  bottom: -0.7rem;
+}
+
+nav a:hover {
+  border-bottom-color: var(--rule);
+}
+
+nav a[aria-current="page"] {
+  color: var(--crimson);
+  border-bottom-color: var(--crimson);
+}
+
+/* ---- collapsed nav (phones/tablets) ---- */
+@media (max-width: 47.99rem) {
+  .site-header .wrap {
+    align-items: center;
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+
+  /* Only collapse when JS is present to reopen it. Without .js the nav simply
+     renders as a normal wrapped list and every page stays reachable. */
+  .js .site-header nav {
+    flex-basis: 100%;
+    display: none;
+  }
+
+  .js .site-header nav[data-open='true'] {
+    display: block;
+  }
+
+  .site-header nav ul {
+    flex-direction: column;
+    gap: 0;
+    padding-block: 0.25rem 0.5rem;
+  }
+
+  .site-header nav li {
+    border-top: 1px solid var(--rule);
+  }
+
+  .site-header nav a {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding-bottom: 0;
+    border-bottom: 0;
+    border-left: 3px solid transparent;
+    padding-left: 0.75rem;
+    margin-left: -0.75rem;
+  }
+
+  /* The stacked links are already full-width targets, so the overlay that expands
+     the inline nav hit area would spill across neighbouring rows here. */
+  .site-header nav a::after {
+    display: none;
+  }
+
+  .site-header nav a[aria-current='page'] {
+    border-left-color: var(--crimson);
+    border-bottom-color: transparent;
+  }
+}
+
+@media (min-width: 48rem) {
+  .nav-toggle {
+    display: none;
+  }
+
+  /* Never leave the menu hidden on desktop, whatever state JS last wrote. */
+  .site-header nav {
+    display: block !important;
+  }
+}
+
+/* ---- sections ---- */
+main {
+  padding-block: 3rem 4rem;
+}
+
+.lede {
+  font-size: 1.1875rem;
+  color: var(--muted);
+  max-width: var(--measure);
+}
+
+.section {
+  margin-top: 3.5rem;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-head h2 {
+  margin: 0;
+}
+
+/* Touch-friendly hit area for the inline section links ("All research →"). */
+.section-head a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.eyebrow {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--crimson);
+  margin: 0 0 0.75rem;
+}
+
+/* ---- faculty ---- */
+.faculty-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: 2.5rem 2rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.faculty-card img,
+.faculty-card .initials {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 3px;
+  background: var(--wash);
+}
+
+.faculty-card .initials {
+  display: grid;
+  place-items: center;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 2.25rem;
+  font-weight: 600;
+  color: #b9b4ae;
+  border: 1px dashed var(--rule);
+}
+
+.faculty-card {
+  position: relative;
+}
+
+.faculty-card h3 {
+  margin: 0.9rem 0 0.15rem;
+  font-size: 1.125rem;
+}
+
+.faculty-card h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.faculty-card h3 a:hover {
+  color: var(--crimson);
+}
+
+/* Stretched link: the whole card becomes the tap target for the name link. */
+.faculty-card h3 a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.faculty-card .role {
+  font-size: 0.9375rem;
+  color: var(--muted);
+  margin: 0 0 0.6rem;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0;
+  margin: 0 0 0.75rem;
+  list-style: none;
+}
+
+.tags li {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.75rem;
+  color: var(--muted);
+  background: var(--wash);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem 1.25rem;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.875rem;
+}
+
+.links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/* ---- research ---- */
+.thrust {
+  padding-block: 1.75rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.thrust:first-of-type {
+  border-top: 1px solid var(--rule);
+}
+
+.thrust h3 {
+  font-size: 1.25rem;
+  margin: 0 0 0.4rem;
+}
+
+.thrust p {
+  margin: 0 0 0.75rem;
+  max-width: var(--measure);
+}
+
+.thrust .who {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+/* ---- news ---- */
+.news-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.news-list li {
+  padding-block: 1.1rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.news-list time {
+  display: block;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  margin-bottom: 0.2rem;
+}
+
+.news-list h3 {
+  font-size: 1.0625rem;
+  margin: 0 0 0.3rem;
+}
+
+.news-list h3 a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/* Back-links rendered inside an eyebrow (e.g. "← People" on a bio page). */
+.eyebrow a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.news-list p {
+  margin: 0;
+  max-width: var(--measure);
+}
+
+/* ---- math (KaTeX) ---- */
+
+/* A display equation has a fixed intrinsic width and cannot reflow, so on a narrow
+   screen it would otherwise widen the whole page. Give it its own scroll container:
+   the equation scrolls sideways, the page never does. */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: 0.5rem;
+}
+
+/* Inline math should never be the thing that forces a wide line box. */
+.katex {
+  max-width: 100%;
+}
+
+/* ---- footer ---- */
+.site-footer {
+  border-top: 1px solid var(--rule);
+  background: var(--wash);
+  padding-block: 2rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+.site-footer p {
+  margin: 0 0 0.35rem;
+  max-width: var(--measure);
+}
+
+/* On phones a full-width portrait per person turns the directory into a very long
+   scroll (five faculty ran to ~4400px). Switch to a compact row: thumbnail on the
+   left, name and blurb beside it. Tags are dropped here — they are decorative, and
+   the full set is on each person's own page. */
+@media (max-width: 34rem) {
+  .faculty-grid {
+    gap: 1.5rem 0;
+  }
+
+  .faculty-card {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    column-gap: 1rem;
+    align-items: start;
+  }
+
+  .faculty-card h3 {
+    margin-top: 0;
+  }
+
+  .faculty-card .tags {
+    display: none;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #ececec;
+    --muted: #a2a2a2;
+    --rule: #333;
+    --paper: #131313;
+    --wash: #1c1c1c;
+    --crimson: #ff6b6b;
+    --crimson-dark: #ff9a9a;
+  }
+
+  .brand,
+  nav a {
+    color: var(--ink);
+  }
+
+  .faculty-card .initials {
+    color: #4d4d4d;
+  }
+}

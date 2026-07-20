@@ -1,0 +1,104 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import heroLight from '../assets/brand/lockup-light.svg?url';
+import heroDark from '../assets/brand/lockup-dark.svg?url';
+import { url } from '../lib/url';
+
+const thrusts = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
+
+const news = (await getCollection('news'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 4);
+
+const dateFmt = new Intl.DateTimeFormat('en-US', { dateStyle: 'long', timeZone: 'UTC' });
+---
+
+<BaseLayout title="Theoretical Chemistry — Indiana University">
+  {/* The lockup *is* the page heading, so it stays inside the h1 and carries the alt
+      text — the document keeps a real, readable h1 for screen readers and search. */}
+  <h1 class="hero-mark">
+    <img
+      class="brand-light"
+      src={heroLight}
+      alt="Theoretical Chemistry — Indiana University"
+      width="1104"
+      height="261"
+    />
+    <img
+      class="brand-dark"
+      src={heroDark}
+      alt="Theoretical Chemistry — Indiana University"
+      width="1104"
+      height="261"
+    />
+  </h1>
+  <p class="lede">
+    We build the theory, algorithms, and software that explain chemical behavior from
+    first principles — from strongly correlated electrons to light-driven dynamics —
+    and we train the next generation of theorists to do the same.
+  </p>
+
+  <section class="section first">
+    <div class="section-head">
+      <h2>Research</h2>
+      <a href={url('/research')}>All research →</a>
+    </div>
+    {
+      thrusts.map((thrust) => (
+        <article class="thrust">
+          <h3>{thrust.data.title}</h3>
+          <p>{thrust.data.summary}</p>
+        </article>
+      ))
+    }
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>News</h2>
+      <a href={url('/join')}>Openings →</a>
+    </div>
+    {
+      news.length === 0 ? (
+        <p class="lede">No news items yet.</p>
+      ) : (
+        <ul class="news-list">
+          {news.map((item) => (
+            <li>
+              <time datetime={item.data.date.toISOString()}>{dateFmt.format(item.data.date)}</time>
+              <h3>
+                {item.data.link ? <a href={item.data.link}>{item.data.title}</a> : item.data.title}
+              </h3>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+</BaseLayout>
+
+<style>
+  /* The lockup replaces the headline text, so it is sized like a headline: large but
+     capped so it never dominates on a wide screen. */
+  .hero-mark {
+    margin: 0 0 1.5rem;
+    line-height: 0;
+  }
+
+  .hero-mark img {
+    width: 100%;
+    max-width: 580px;
+    height: auto;
+  }
+
+  .section.first {
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 34rem) {
+    .hero-mark img {
+      max-width: 100%;
+    }
+  }
+</style>

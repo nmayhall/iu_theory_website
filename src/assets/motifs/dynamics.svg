@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" role="img" aria-hidden="true">
+  <!-- Decorative only: a double well with a delocalised packet spanning the barrier. -->
+  <defs>
+    <linearGradient id="dy-a" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="currentColor" stop-opacity="0.28" />
+      <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+  <path
+    d="M28 52 C64 52 60 132 100 132 C138 132 140 84 160 84 C180 84 182 132 220 132 C260 132 256 52 292 52"
+    fill="none" stroke="currentColor" stroke-opacity="0.5" stroke-width="1.4"
+  />
+  <path
+    d="M60 120 C84 88 116 88 140 120 C150 134 170 134 180 120 C204 88 236 88 260 120 L260 132 L60 132 Z"
+    fill="url(#dy-a)"
+  />
+  <g stroke="currentColor" stroke-opacity="0.3" stroke-width="1" stroke-dasharray="3 5">
+    <path d="M40 108 H280" />
+    <path d="M40 124 H280" />
+  </g>
+  <g fill="currentColor">
+    <circle cx="100" cy="132" r="3.5" />
+    <circle cx="220" cy="132" r="3.5" />
+  </g>
+</svg>

@@ -1,0 +1,81 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { url } from '../lib/url';
+
+// News entries that carry a link are surfaced here as openings/announcements.
+const openings = (await getCollection('news'))
+  .filter((item) => item.data.link)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const dateFmt = new Intl.DateTimeFormat('en-US', { dateStyle: 'long', timeZone: 'UTC' });
+---
+
+<BaseLayout title="Join Us — IU Theoretical Chemistry">
+  <p class="eyebrow">Join Us</p>
+  <h1>Openings</h1>
+  <p class="lede">
+    We welcome prospective graduate students, postdoctoral researchers, and IU
+    undergraduates interested in theoretical and computational chemistry.
+  </p>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Prospective graduate students</h2>
+    </div>
+    <div class="prose">
+      <p>
+        Graduate students are admitted through the Department of Chemistry, not by
+        individual groups — you do not need to secure an advisor before applying. Admitted
+        students rotate before choosing a group. If your interests align with a particular
+        faculty member, email them directly; mention what you have read of their work.
+      </p>
+      <p><a href={url('/people')}>See faculty and their research areas →</a></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Postdoctoral researchers</h2>
+    </div>
+    <div class="prose">
+      <p>
+        Postdoctoral openings are advertised by individual groups. Contact faculty directly
+        with a CV, a brief statement of research interests, and the names of references.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Undergraduates</h2>
+    </div>
+    <div class="prose">
+      <p>
+        IU undergraduates can join theory groups for research credit or summer work. Prior
+        programming experience helps but is not required — curiosity and persistence matter
+        more.
+      </p>
+    </div>
+  </section>
+
+  {
+    openings.length > 0 && (
+      <section class="section">
+        <div class="section-head">
+          <h2>Announcements</h2>
+        </div>
+        <ul class="news-list">
+          {openings.map((item) => (
+            <li>
+              <time datetime={item.data.date.toISOString()}>{dateFmt.format(item.data.date)}</time>
+              <h3>
+                <a href={item.data.link}>{item.data.title}</a>
+              </h3>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</BaseLayout>

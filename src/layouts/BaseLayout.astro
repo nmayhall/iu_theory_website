@@ -1,0 +1,139 @@
+---
+import '../styles/global.css';
+// KaTeX renders math to HTML at build time, but still needs its stylesheet for
+// correct glyph metrics and spacing. The webfonts it references are lazy-loaded by
+// the browser, so pages without math pay only for the CSS.
+import 'katex/dist/katex.min.css';
+// Self-contained SVG lockups (fonts embedded via scripts/prepare-logo.py), served as
+// hashed static assets. One file scales to every size.
+import lockupLight from '../assets/brand/lockup-light.svg?url';
+import lockupDark from '../assets/brand/lockup-dark.svg?url';
+import { url } from '../lib/url';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Theoretical and computational chemistry research at Indiana University.' } = Astro.props;
+
+const nav = [
+  { href: '/', label: 'Home' },
+  { href: '/people', label: 'People' },
+  { href: '/research', label: 'Research' },
+  { href: '/publications', label: 'Publications' },
+  { href: '/history', label: 'History' },
+  { href: '/join', label: 'Join Us' },
+];
+
+// Normalize away the base prefix and any trailing slash so nav highlighting
+// works the same in dev (/people) and on Pages (/iu_theory_website/people/).
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const current = Astro.url.pathname.replace(base, '').replace(/\/$/, '') || '/';
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" href={url('/favicon-32.png')} type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} sizes="180x180" />
+    <title>{title}</title>
+    <script is:inline>
+      // Mark that JS is available BEFORE first paint. The collapsed mobile nav is
+      // styled only under `.js`, so if this script never runs the menu stays visible
+      // as a plain wrapped list rather than becoming unreachable behind a dead button.
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        {/* The accessible name lives on the link, so both images carry alt="" — that
+            way the name survives whichever variant CSS hides for the current theme. */}
+        <a class="brand" href={url('/')} aria-label="Theoretical Chemistry, Indiana University Bloomington — home">
+          <img class="brand-light" src={lockupLight} alt="" width="1104" height="261" />
+          <img class="brand-dark" src={lockupDark} alt="" width="1104" height="261" />
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          aria-label="Menu"
+        >
+          <span class="bars" aria-hidden="true"></span>
+        </button>
+
+        <nav id="site-nav" aria-label="Primary" data-open="false">
+          <ul>
+            {
+              nav.map((item) => (
+                <li>
+                  <a
+                    href={url(item.href)}
+                    aria-current={current === item.href.replace(/\/$/, '') || (item.href === '/' && current === '/') ? 'page' : undefined}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="wrap">
+        <slot />
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <p>Department of Chemistry, Indiana University Bloomington</p>
+        <p>800 E. Kirkwood Ave., Bloomington, IN 47405</p>
+      </div>
+    </footer>
+
+    <script is:inline>
+      (() => {
+        const toggle = document.querySelector('.nav-toggle');
+        const nav = document.getElementById('site-nav');
+        if (!toggle || !nav) return;
+
+        // Matches the CSS breakpoint below which the menu collapses.
+        const mobile = window.matchMedia('(max-width: 47.99rem)');
+
+        const setOpen = (open) => {
+          nav.dataset.open = String(open);
+          toggle.setAttribute('aria-expanded', String(open));
+        };
+
+        toggle.addEventListener('click', () => setOpen(nav.dataset.open !== 'true'));
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && nav.dataset.open === 'true') {
+            setOpen(false);
+            toggle.focus();
+          }
+        });
+
+        // Tapping outside the header dismisses the menu.
+        document.addEventListener('click', (e) => {
+          if (nav.dataset.open !== 'true') return;
+          if (!e.target.closest('.site-header')) setOpen(false);
+        });
+
+        // Returning to desktop width must clear the open state, otherwise the
+        // attribute lingers and the menu reopens oddly on the way back down.
+        mobile.addEventListener('change', (e) => {
+          if (!e.matches) setOpen(false);
+        });
+      })();
+    </script>
+  </body>
+</html>

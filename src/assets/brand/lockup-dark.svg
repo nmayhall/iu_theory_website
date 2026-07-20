@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="165.27359mm"
+   height="38.629169mm"
+   viewBox="0 0 165.27359 38.629169"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
+   sodipodi:docname="iutheory1_dark.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#070707"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.98240189"
+     inkscape:cx="238.19172"
+     inkscape:cy="-87.540548"
+     inkscape:window-width="1472"
+     inkscape:window-height="895"
+     inkscape:window-x="0"
+     inkscape:window-y="33"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g2" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(10.583333,-225.425)">
+    <path
+       d="m -9.7895832,226.21875 v 37.04167"
+       stroke="#eeedeb"
+       stroke-width="1.5875"
+       stroke-linecap="round"
+       fill="none"
+       id="path1"
+       style="stroke:#990000;stroke-opacity:1" />
+    <path
+       d="M 27.410833,226.21875 34.29,244.73959 27.410833,263.26042"
+       stroke="#eeedeb"
+       stroke-width="1.5875"
+       stroke-linecap="round"
+       stroke-linejoin="round"
+       fill="none"
+       id="path2"
+       style="stroke:#990000;stroke-opacity:1" />
+    <g
+       transform="matrix(0.05486929,0,0,0.05486929,-2.73679,229.54879)"
+       id="g3"
+       style="fill:#eeedeb;fill-opacity:1">
+      <path
+         fill="#eeedeb"
+         fill-rule="evenodd"
+         d="m 186.5,84 h 110 v 29 l -23,1 0.5,220.5 43.5,-0.5 V 167 l -21,-1 v -29 h 104 v 29 l -24,1 V 362 L 338,400.5 273.5,401 v 43 l 23,1 -0.5,38.5 H 187 l -0.5,-38.5 24,-1 V 401 L 144,400.5 106.5,362 V 168 L 105,166.5 82.5,166 83,136.5 186.5,137 v 29 l -21,1 v 167 h 45 V 114 l -24,-1 z"
+         id="path3"
+         style="fill:#eeedeb;fill-opacity:1" />
+    </g>
+    <g
+       id="g2"
+       transform="matrix(0.26458333,0,0,0.26458333,-27.252083,211.66667)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:1.25;font-family:'Space Grotesk';-inkscape-font-specification:'Space Grotesk, Normal';font-variant-ligatures:none;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#eeedeb;fill-opacity:1"
+         x="272.2558"
+         y="110.47325"
+         id="text1"><tspan
+           sodipodi:role="line"
+           id="tspan1"
+           x="272.2558"
+           y="110.47325">theoretical chemistry</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24px;line-height:1.25;font-family:'Spline Sans Mono';-inkscape-font-specification:'Spline Sans Mono, Normal';font-variant-ligatures:none;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:3px;fill:#eeedeb;fill-opacity:1"
+         x="275.51981"
+         y="154.70604"
+         id="text2"><tspan
+           sodipodi:role="line"
+           id="tspan2"
+           x="275.51981"
+           y="154.70604"
+           style="letter-spacing:3px;fill:#eeedeb;fill-opacity:1">INDIANA UNIVERSITY</tspan></text>
+    </g>
+  </g>
+</svg>
