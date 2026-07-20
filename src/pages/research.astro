@@ -54,7 +54,7 @@ const rendered = await Promise.all(
       rendered.map(({ thrust, Content }) => {
         const motif = thrust.data.motif ? motifByName.get(thrust.data.motif) : undefined;
         return (
-          <article class="thrust thrust-grid">
+          <article id={thrust.id} class="thrust thrust-grid">
             <div class="thrust-art">
               {thrust.data.figure ? (
                 <figure>
@@ -91,6 +91,9 @@ const rendered = await Promise.all(
     grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
     gap: 2rem;
     align-items: start;
+    /* When arrived at via a #hash from the home page, leave breathing room above the
+       heading instead of butting it against the top of the viewport. */
+    scroll-margin-top: 1.5rem;
   }
 
   /* Grid items default to min-width:auto, so a wide indivisible child — a KaTeX
