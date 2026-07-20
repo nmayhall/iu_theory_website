@@ -79,16 +79,27 @@ The lockup appears twice: small in the header on every page, and large as the `<
 home page, where it sits *inside* the `h1` and carries the alt text so the document keeps a
 real heading for screen readers and search.
 
-**Regenerate from a new designer export with `scripts/prepare-logo.py`** — do not use a raw
-export directly. The exports keep the wordmark as live `<text>` in **Space Grotesk** +
-**Spline Sans Mono**, neither a default system font, so without embedding the wordmark
-falls back to a system font on most visitors' machines. The script subsets and embeds both
-fonts (both OFL, so permitted), optionally strips a baked background rect, and validates the
-output as XML:
+**Regenerate from a new designer export with `scripts/outline-logo.py` — do not use a raw
+export directly.** The exports keep the wordmark as live `<text>` in **Space Grotesk** +
+**Spline Sans Mono**, neither a default system font. That fails in two ways: it falls back
+to a system font on machines without those fonts, and — even with the font embedded as
+`@font-face` — an SVG loaded through `<img>` on **iOS Safari** runs in a restricted mode
+that ignores the embedded font, so phones show the wrong font. (Both bugs were hit in
+turn; embedding fixed the first, not the second.)
+
+`outline-logo.py` converts the text to vector paths, removing the font entirely, so the
+mark renders identically everywhere including in `<img>` on iOS. It replaces each `<text>`
+in place (so the parent transform still applies), optionally strips a baked background
+rect, and asserts the output has no `<text>` or `font-family` left:
 
 ```sh
-python3 scripts/prepare-logo.py <export.svg> src/assets/brand/lockup-light.svg [--strip-fill '#191919']
+python3 scripts/outline-logo.py <export.svg> src/assets/brand/lockup-light.svg [--strip-fill '#191919']
 ```
+
+The outlined files are larger (~31 KB vs ~4 KB) because glyph path data is verbose, but
+they are one cached request that gzips well, and correctness on every device beats the few
+KB. The fonts (Space Grotesk, Spline Sans Mono) must be installed locally to run the
+script — both are on Google Fonts, OFL-licensed. Requires `fonttools` (`pip install fonttools`).
 
 Favicons in `public/` are rasterised from `icon-dark.svg` composited on IU crimson, so the
 mark stays legible against both light and dark browser chrome. Regenerate if the artwork
