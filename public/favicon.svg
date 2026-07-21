@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="45.074081mm"
+   height="42.699768mm"
+   viewBox="0 0 45.074081 42.699768"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
+   sodipodi:docname="favicon_1.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><style>svg{color:#191919}@media (prefers-color-scheme:dark){svg{color:#eeedeb}}</style>
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.74656321"
+     inkscape:cx="95.772198"
+     inkscape:cy="105.81823"
+     inkscape:window-width="1472"
+     inkscape:window-height="895"
+     inkscape:window-x="0"
+     inkscape:window-y="33"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(3.2283793,-109.67666)">
+    <g
+       id="g1"
+       transform="matrix(0.74133982,0,0,0.74133982,0.61593451,30.454541)">
+      <path
+         d="M 4.6025952,117.81953 V 154.8612"
+         stroke="#eeedeb"
+         stroke-width="1.5875"
+         stroke-linecap="round"
+         fill="none"
+         id="path1"
+         style="stroke:currentColor;stroke-width:2.80168;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         d="m 41.803012,117.81953 6.879167,18.52084 -6.879167,18.52083"
+         stroke="#eeedeb"
+         stroke-width="1.5875"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         fill="none"
+         id="path2"
+         style="stroke:currentColor;stroke-width:2.80168;stroke-dasharray:none;stroke-opacity:1" />
+      <g
+         transform="matrix(0.05486929,0,0,0.05486929,11.655389,121.14957)"
+         id="g3"
+         style="fill:currentColor;fill-opacity:1">
+        <path
+           fill="#eeedeb"
+           fill-rule="evenodd"
+           d="m 186.5,84 h 110 v 29 l -23,1 0.5,220.5 43.5,-0.5 V 167 l -21,-1 v -29 h 104 v 29 l -24,1 V 362 L 338,400.5 273.5,401 v 43 l 23,1 -0.5,38.5 H 187 l -0.5,-38.5 24,-1 V 401 L 144,400.5 106.5,362 V 168 L 105,166.5 82.5,166 83,136.5 186.5,137 v 29 l -21,1 v 167 h 45 V 114 l -24,-1 z"
+           id="path3"
+           style="fill:currentColor;fill-opacity:1" />
+      </g>
+    </g>
+  </g>
+</svg>

@@ -37,6 +37,10 @@ const current = Astro.url.pathname.replace(base, '').replace(/\/$/, '') || '/';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    {/* SVG favicon (theme-adaptive: ink on light chrome, cream on dark) for modern
+        browsers; PNG for those without SVG-favicon support; a cream tile for iOS home
+        screen, which renders transparency as black. */}
+    <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
     <link rel="icon" href={url('/favicon-32.png')} type="image/png" sizes="32x32" />
     <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} sizes="180x180" />
     <title>{title}</title>
