@@ -17,8 +17,9 @@ interface Props {
 
 const { title, description = 'Theoretical and computational chemistry research at Indiana University.' } = Astro.props;
 
+// No "Home" item: the brand lockup links home on every page, so a Home link would just
+// duplicate it.
 const nav = [
-  { href: '/', label: 'Home' },
   { href: '/people', label: 'People' },
   { href: '/research', label: 'Research' },
   { href: '/publications', label: 'Publications' },
@@ -30,6 +31,10 @@ const nav = [
 // works the same in dev (/people) and on Pages (/iu_theory_website/people/).
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const current = Astro.url.pathname.replace(base, '').replace(/\/$/, '') || '/';
+
+// On the home page the lockup is already the large hero, so the small header copy is
+// redundant — hide it there only.
+const isHome = current === '/';
 ---
 
 <html lang="en">
@@ -61,7 +66,7 @@ const current = Astro.url.pathname.replace(base, '').replace(/\/$/, '') || '/';
     </script>
   </head>
   <body>
-    <header class="site-header">
+    <header class:list={['site-header', { 'is-home': isHome }]}>
       <div class="wrap">
         {/* The accessible name lives on the link, so both images carry alt="" — that
             way the name survives whichever variant CSS hides for the current theme. */}

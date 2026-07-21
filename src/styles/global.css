@@ -135,6 +135,17 @@ img {
   margin-right: auto;
 }
 
+/* Home page: the lockup is the large hero below, so drop the header copy. With the
+   brand gone it can no longer push the controls right, so right-align the row instead —
+   works whether or not JS has shown the theme toggle. */
+.site-header.is-home .brand {
+  display: none;
+}
+
+.site-header.is-home .wrap {
+  justify-content: flex-end;
+}
+
 .brand img {
   width: 236px;
   height: auto;

@@ -9,7 +9,7 @@ const thrusts = (await getCollection('research')).sort((a, b) => a.data.order - 
 
 const news = (await getCollection('news'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 4);
+  .slice(0, 3);
 
 const dateFmt = new Intl.DateTimeFormat('en-US', { dateStyle: 'long', timeZone: 'UTC' });
 ---
@@ -44,16 +44,17 @@ const dateFmt = new Intl.DateTimeFormat('en-US', { dateStyle: 'long', timeZone: 
       <h2>Research</h2>
       <a href={url('/research')}>All research →</a>
     </div>
-    {
-      thrusts.map((thrust) => (
-        <article class="thrust">
-          <h3>
+    {/* Titles only — the summaries live on /research, so repeating them here just
+        duplicated that page. Each links to its section there. */}
+    <ul class="topics">
+      {
+        thrusts.map((thrust) => (
+          <li>
             <a href={url(`/research#${thrust.id}`)}>{thrust.data.title}</a>
-          </h3>
-          <p>{thrust.data.summary}</p>
-        </article>
-      ))
-    }
+          </li>
+        ))
+      }
+    </ul>
   </section>
 
   <section class="section">
@@ -98,16 +99,54 @@ const dateFmt = new Intl.DateTimeFormat('en-US', { dateStyle: 'long', timeZone: 
     margin-top: 3rem;
   }
 
-  /* Thrust titles link to their section on /research. Keep them looking like headings
-     — inherit the ink colour, no underline — and only signal the link on hover. */
-  .thrust h3 a {
-    color: inherit;
+  /* Research topics: a calm list of links, no summaries. Sans-serif like the nav for a
+     clean, directory feel; hairline dividers; a muted arrow that warms to crimson on
+     hover to signal it's a link. */
+  .topics {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .topics li {
+    border-top: 1px solid var(--rule);
+  }
+
+  .topics li:last-child {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .topics a {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 0.9rem 0;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 1.125rem;
+    color: var(--ink);
     text-decoration: none;
   }
 
-  .thrust h3 a:hover {
+  .topics a::after {
+    content: '→';
+    color: var(--muted);
+    transition: transform 0.15s ease;
+  }
+
+  .topics a:hover {
     color: var(--crimson);
-    text-decoration: underline;
+  }
+
+  .topics a:hover::after {
+    color: var(--crimson);
+    transform: translateX(3px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .topics a::after {
+      transition: none;
+    }
   }
 
   @media (max-width: 34rem) {
