@@ -2,27 +2,31 @@
 import { getCollection, render } from 'astro:content';
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { url } from '../lib/url';
 
 const thrusts = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
 
-// Resolve faculty references once into an id -> name lookup, rather than issuing a
-// getEntry() call per reference.
+// Resolve faculty references once into an id -> {name, group site} lookup, rather than
+// issuing a getEntry() call per reference.
 const facultyById = new Map(
-  (await getCollection('faculty')).map((entry) => [entry.id, entry.data.name]),
+  (await getCollection('faculty')).map((entry) => [
+    entry.id,
+    { name: entry.data.name, personalSite: entry.data.personalSite, id: entry.id },
+  ]),
 );
 
 // reference() only checks that the *shape* is right; it does not verify the target
 // exists until something dereferences it. Without this guard a typo'd slug renders
 // as an empty name instead of failing, so resolve eagerly and fail loudly.
-function facultyName(id: string): string {
-  const name = facultyById.get(id);
-  if (!name) {
+function facultyInfo(id: string) {
+  const info = facultyById.get(id);
+  if (!info) {
     throw new Error(
       `Unknown faculty slug "${id}" referenced in a research entry. ` +
         `Expected one of: ${[...facultyById.keys()].join(', ')}`,
     );
   }
-  return name;
+  return info;
 }
 
 // Motifs are inlined as raw SVG so they inherit `currentColor` and follow the theme.
@@ -74,7 +78,25 @@ const rendered = await Promise.all(
               </div>
               {thrust.data.faculty.length > 0 && (
                 <p class="who">
-                  Faculty: {thrust.data.faculty.map((ref) => facultyName(ref.id)).join(', ')}
+                  Faculty:{' '}
+                  {thrust.data.faculty.map((ref, i) => {
+                    const f = facultyInfo(ref.id);
+                    // Link to the group's own site when there is one; otherwise fall
+                    // back to the faculty member's bio page here on this site.
+                    const href = f.personalSite ?? url(`/people/${f.id}`);
+                    const external = Boolean(f.personalSite);
+                    return (
+                      <>
+                        {i > 0 && ', '}
+                        <a
+                          href={href}
+                          {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                        >
+                          {f.name}
+                        </a>
+                      </>
+                    );
+                  })}
                 </p>
               )}
             </div>
