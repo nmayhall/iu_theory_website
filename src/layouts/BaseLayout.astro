@@ -4,8 +4,9 @@ import '../styles/global.css';
 // correct glyph metrics and spacing. The webfonts it references are lazy-loaded by
 // the browser, so pages without math pay only for the CSS.
 import 'katex/dist/katex.min.css';
-// Self-contained SVG lockups (fonts embedded via scripts/prepare-logo.py), served as
-// hashed static assets. One file scales to every size.
+// Self-contained SVG lockups (wordmark outlined to paths via scripts/outline-logo.py, so
+// they render identically everywhere including <img> on iOS), served as hashed static
+// assets. One file scales to every size.
 import lockupLight from '../assets/brand/lockup-light.svg?url';
 import lockupDark from '../assets/brand/lockup-dark.svg?url';
 import { url } from '../lib/url';
